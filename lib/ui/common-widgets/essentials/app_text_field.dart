@@ -7,17 +7,20 @@ class AppTextField extends StatelessWidget {
 
   AppTextField({
     this.controller,
-    this.hintText
+    this.hintText,
+    this.password = false
   });
 
   final TextEditingController controller;
   final String hintText;
+  final bool password;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: this.controller,
       textAlign: TextAlign.center,
+      obscureText: this.password,
       decoration: new InputDecoration(
         hintText: hintText,
         border: new OutlineInputBorder(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heed/ui/common-widgets/essentials/app_button.dart';
 import 'package:heed/ui/common-widgets/essentials/app_text.dart';
 import 'package:heed/ui/common-widgets/essentials/app_text_field.dart';
 import 'package:heed/ui/common-widgets/essentials/safe_screen.dart';
@@ -14,9 +15,19 @@ class _LoginScreenState extends State<LoginScreen> {
   // Variables declaration
   MediaQueryData _mediaQueryData; // We will use it to know the screen's size, and to make a responsive application
   AppText _appText; // We will use it for strings into the app
-  TextEditingController _emailController;
+  TextEditingController _emailController; // Textfield controller where we will save the user's input
+  TextEditingController _passwordController;  // Textfield controller where we will save the user's input
 
   static const _defaultMargin = 24.0;
+
+  void submit() {
+    print('''
+    
+      Login information:
+        Username: ${_emailController.text} 
+        Password: ${_passwordController.text} 
+    ''');
+  } 
 
   Widget _buildTitle() {
     return Center(
@@ -55,6 +66,35 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Widget _buildPasswordField() {
+    return Padding(
+      padding: const EdgeInsets.only(left: _defaultMargin, right: _defaultMargin),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _appText.textFieldTitle(text: 'Contraseña:'),
+          SizedBox(
+            height: 15.0,
+          ),
+          AppTextField(
+            controller: _passwordController,
+            hintText: '************',
+            password: true,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSubmitButton() {
+    return Center(
+      child: AppButton(
+        text: 'Ingresar',
+        onPressed: submit,
+      ),
+    );
+  }  
+
   Widget _buildBody() {
     return SafeScreen(
       body: SingleChildScrollView(
@@ -62,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-              height: _mediaQueryData.size.height * 0.08,
+              height: _mediaQueryData.size.height * 0.12,
             ),
             _buildTitle(),
             SizedBox(
@@ -72,7 +112,15 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: _mediaQueryData.size.height * 0.09,
             ),
-            _buildEmailField()
+            _buildEmailField(),
+            SizedBox(
+              height: _mediaQueryData.size.height * 0.02,
+            ),
+            _buildPasswordField(),
+            SizedBox(
+              height: _mediaQueryData.size.height * 0.1,
+            ),
+            _buildSubmitButton()
           ],
         ),
       ),
@@ -82,6 +130,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+
+    // Constant variables initialization
+    _appText = AppText();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
   }
 
   @override
@@ -89,7 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // Variables initialization
     _mediaQueryData = MediaQuery.of(context);
-    _appText = AppText();
 
     // Build the screen
     return _buildBody();
