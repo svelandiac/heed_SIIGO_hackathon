@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heed/root_screen_handler.dart';
 import 'package:provider/provider.dart';
+import 'access-data/models/user.dart';
 
 void main() => runApp(HeedApp());
 
@@ -9,7 +10,7 @@ class HeedApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // ChangeNotifierProvider(builder: (context)=> Trip(),),
+        ChangeNotifierProvider(create: (_) => User()),
       ],
       child: MaterialApp(
         title: 'Heed',

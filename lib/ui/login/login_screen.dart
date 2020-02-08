@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:heed/access-data/models/user.dart';
 import 'package:heed/controllers/auth_controller.dart';
 import 'package:heed/ui/common-widgets/essentials/app_button.dart';
 import 'package:heed/ui/common-widgets/essentials/app_text.dart';
 import 'package:heed/ui/common-widgets/essentials/app_text_field.dart';
 import 'package:heed/ui/common-widgets/essentials/safe_screen.dart';
 import 'package:heed/ui/common-widgets/loading_widget.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
 
@@ -21,16 +23,19 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController;  // Textfield controller where we will save the user's input
   bool _loading; // Defines when the user sees a circular progress indicator
   AuthController _authController; // Controller for authentication
+  User _userProvider; // User information provider
 
   static const _defaultMargin = 24.0;
 
-  void submit() {
+  Future<void> submit() async {
 
     // Method for logging in
 
     setState(() {
       this._loading = true;
     });
+
+
 
     _authController.loginWithEmailAndPassword(
       email: _emailController.text.trim(),
@@ -172,6 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // Variables initialization
     _mediaQueryData = MediaQuery.of(context);
+    _userProvider = Provider.of<User>(context);
 
     // Build the screen
     return _buildBody();

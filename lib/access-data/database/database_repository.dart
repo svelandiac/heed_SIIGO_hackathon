@@ -43,7 +43,7 @@ class DatabaseRepository {
   // To read a document, you must pass the collection, the documentID, and it will return 
   // a DocumentSnapshot that you will use for extracting the data into a model.
 
-  Future readADocument({String collection, String documentID}) {
+  Future<DocumentSnapshot> readADocument({String collection, String documentID}) {
 
     return this._firestore.collection(collection).document(documentID).get();
 
