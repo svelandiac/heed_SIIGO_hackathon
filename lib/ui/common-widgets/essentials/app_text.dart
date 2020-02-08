@@ -28,4 +28,14 @@ class AppText {
     );
   }
 
+  Widget textFieldTitle({String text}) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 14.0,
+        fontWeight: FontWeight.bold
+      ),
+    );
+  }
+
 }

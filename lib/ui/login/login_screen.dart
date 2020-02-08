@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heed/ui/common-widgets/essentials/app_text.dart';
+import 'package:heed/ui/common-widgets/essentials/app_text_field.dart';
 import 'package:heed/ui/common-widgets/essentials/safe_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -11,25 +12,45 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
 
   // Variables declaration
-  MediaQueryData mediaQueryData; // We will use it to know the screen's size, and to make a responsive application
-  AppText appText; // We will use it for strings into the app
+  MediaQueryData _mediaQueryData; // We will use it to know the screen's size, and to make a responsive application
+  AppText _appText; // We will use it for strings into the app
+  TextEditingController _emailController;
 
-  static const defaultMargin = 24.0;
+  static const _defaultMargin = 24.0;
 
   Widget _buildTitle() {
     return Center(
-      child: appText.title('Iniciar sesión'),
+      child: _appText.title('Iniciar sesión'),
     );
   }
 
   Widget _buildFirstSubtitle() {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(left: defaultMargin, right: defaultMargin),
-        child: appText.firstSubtitle(
+        padding: const EdgeInsets.only(left: _defaultMargin, right: _defaultMargin),
+        child: _appText.firstSubtitle(
           text: 'Identifícate con tus credenciales para disfrutar de la aplicación.',
           centerText: true
         ),
+      ),
+    );
+  }
+
+  Widget _buildEmailField() {
+    return Padding(
+      padding: const EdgeInsets.only(left: _defaultMargin, right: _defaultMargin),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _appText.textFieldTitle(text: 'Correo electrónico:'),
+          SizedBox(
+            height: 15.0,
+          ),
+          AppTextField(
+            controller: _emailController,
+            hintText: 'email@correo.com',
+          )
+        ],
       ),
     );
   }
@@ -38,15 +59,20 @@ class _LoginScreenState extends State<LoginScreen> {
     return SafeScreen(
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-              height: mediaQueryData.size.height * 0.08,
+              height: _mediaQueryData.size.height * 0.08,
             ),
             _buildTitle(),
             SizedBox(
-              height: mediaQueryData.size.height * 0.04,
+              height: _mediaQueryData.size.height * 0.04,
             ),
-            _buildFirstSubtitle()
+            _buildFirstSubtitle(),
+            SizedBox(
+              height: _mediaQueryData.size.height * 0.09,
+            ),
+            _buildEmailField()
           ],
         ),
       ),
@@ -62,8 +88,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
 
     // Variables initialization
-    mediaQueryData = MediaQuery.of(context);
-    appText = AppText();
+    _mediaQueryData = MediaQuery.of(context);
+    _appText = AppText();
 
     // Build the screen
     return _buildBody();
