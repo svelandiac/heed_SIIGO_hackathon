@@ -15,9 +15,9 @@ class SafeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: body,
+    return SafeArea(
+      child: Scaffold(
+        body: this.body,
       ),
     );
   }

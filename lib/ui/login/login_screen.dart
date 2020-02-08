@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:heed/controllers/auth_controller.dart';
 import 'package:heed/ui/common-widgets/essentials/app_button.dart';
 import 'package:heed/ui/common-widgets/essentials/app_text.dart';
 import 'package:heed/ui/common-widgets/essentials/app_text_field.dart';
 import 'package:heed/ui/common-widgets/essentials/safe_screen.dart';
+import 'package:heed/ui/common-widgets/loading_widget.dart';
 
 class LoginScreen extends StatefulWidget {
 
@@ -17,16 +19,30 @@ class _LoginScreenState extends State<LoginScreen> {
   AppText _appText; // We will use it for strings into the app
   TextEditingController _emailController; // Textfield controller where we will save the user's input
   TextEditingController _passwordController;  // Textfield controller where we will save the user's input
+  bool _loading; // Defines when the user sees a circular progress indicator
+  AuthController _authController; // Controller for authentication
 
   static const _defaultMargin = 24.0;
 
   void submit() {
-    print('''
-    
-      Login information:
-        Username: ${_emailController.text} 
-        Password: ${_passwordController.text} 
-    ''');
+
+    // Method for logging in
+
+    setState(() {
+      this._loading = true;
+    });
+
+    _authController.loginWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim()
+    ).then((value) {
+      setState(() {
+        this._loading = false;
+      });
+    }).catchError((error) {
+      print(error);
+    });
+
   } 
 
   Widget _buildTitle() {
@@ -90,41 +106,53 @@ class _LoginScreenState extends State<LoginScreen> {
     return Center(
       child: AppButton(
         text: 'Ingresar',
-        onPressed: submit,
+        onPressed: !_loading ? submit : null,
       ),
     );
   }  
 
   Widget _buildBody() {
     return SafeScreen(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              height: _mediaQueryData.size.height * 0.12,
+      body: Stack(
+        children: <Widget>[
+          _buildLoading(),
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  height: _mediaQueryData.size.height * 0.12,
+                ),
+                _buildTitle(),
+                SizedBox(
+                  height: _mediaQueryData.size.height * 0.04,
+                ),
+                _buildFirstSubtitle(),
+                SizedBox(
+                  height: _mediaQueryData.size.height * 0.09,
+                ),
+                _buildEmailField(),
+                SizedBox(
+                  height: _mediaQueryData.size.height * 0.02,
+                ),
+                _buildPasswordField(),
+                SizedBox(
+                  height: _mediaQueryData.size.height * 0.1,
+                ),
+                _buildSubmitButton()
+              ],
             ),
-            _buildTitle(),
-            SizedBox(
-              height: _mediaQueryData.size.height * 0.04,
-            ),
-            _buildFirstSubtitle(),
-            SizedBox(
-              height: _mediaQueryData.size.height * 0.09,
-            ),
-            _buildEmailField(),
-            SizedBox(
-              height: _mediaQueryData.size.height * 0.02,
-            ),
-            _buildPasswordField(),
-            SizedBox(
-              height: _mediaQueryData.size.height * 0.1,
-            ),
-            _buildSubmitButton()
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _buildLoading() {
+    if (_loading)
+      return LoadingWidget();
+    else  
+      return Container();
   }
 
   @override
@@ -135,6 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
     _appText = AppText();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _loading = false;
+    _authController = AuthController();
   }
 
   @override

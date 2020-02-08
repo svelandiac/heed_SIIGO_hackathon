@@ -30,6 +30,10 @@ dependencies:
   firebase_auth: ^0.14.0+5 # Plugin for authentication
   firebase_analytics: ^5.0.11 # Analytics 
 
+  # More plugins
+  validate: ^1.7.0 # Validate data (forms)
+  provider: ^3.0.0+1 # Global state management
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
