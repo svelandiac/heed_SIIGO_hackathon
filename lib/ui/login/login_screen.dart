@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heed/access-data/models/user.dart';
 import 'package:heed/controllers/auth_controller.dart';
+import 'package:heed/controllers/user_controller.dart';
 import 'package:heed/ui/common-widgets/essentials/app_button.dart';
 import 'package:heed/ui/common-widgets/essentials/app_text.dart';
 import 'package:heed/ui/common-widgets/essentials/app_text_field.dart';
@@ -24,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _loading; // Defines when the user sees a circular progress indicator
   AuthController _authController; // Controller for authentication
   User _userProvider; // User information provider
+  UserController _userController; // We will use it for bringing the user information
 
   static const _defaultMargin = 24.0;
 
@@ -31,22 +33,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // Method for logging in
 
-    setState(() {
-      this._loading = true;
-    });
+    if (_authController.isAnEmail(_emailController.text.trim()) && _authController.isAPassword(_passwordController.text.trim())) {
 
-
-
-    _authController.loginWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim()
-    ).then((value) {
       setState(() {
-        this._loading = false;
+        this._loading = true;
       });
-    }).catchError((error) {
-      print(error);
-    });
+      
+      try {
+
+        await _userController.bringUserInformation(
+          email: _emailController.text.trim()
+        );
+
+        await _authController.loginWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim()
+        );
+
+      }
+      catch (e) {
+        print(e);
+        setState(() {
+          this._loading = false;
+        });
+      }
+
+    }
+    else {
+      // TODO: Show an error message
+    }
 
   } 
 
@@ -178,6 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // Variables initialization
     _mediaQueryData = MediaQuery.of(context);
     _userProvider = Provider.of<User>(context);
+    _userController = UserController(_userProvider);
 
     // Build the screen
     return _buildBody();

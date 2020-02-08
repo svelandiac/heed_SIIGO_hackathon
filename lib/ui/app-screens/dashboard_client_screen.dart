@@ -37,8 +37,9 @@ class _DashboardClientScreenState extends State<DashboardClientScreen> {
         children: <Widget>[
           appText.firstSubtitle(
             text: userProvider.name,
+            textColor: Colors.black
           ),
-          appText.firstSubtitle(
+          appText.secondSubtitle(
             text: userProvider.company,
           ),
         ],

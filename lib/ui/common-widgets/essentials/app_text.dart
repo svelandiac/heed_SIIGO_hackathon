@@ -17,13 +17,32 @@ class AppText {
     );
   }
 
-  Widget firstSubtitle({String text, bool centerText = false}) {
+  Widget firstSubtitle({String text, bool centerText = false, Color textColor}) {
+
+    if(textColor == null) 
+      textColor = Colors.grey[600];
+
     return Text(
       text,
       textAlign: centerText ? TextAlign.center : TextAlign.start,
       style: TextStyle(
         fontSize: 18,
-        color: Colors.grey[600]
+        color: textColor
+      ),
+    );
+  }
+
+  Widget secondSubtitle({String text, bool centerText = false, Color textColor}) {
+
+    if(textColor == null) 
+      textColor = Colors.grey[600];
+
+    return Text(
+      text,
+      textAlign: centerText ? TextAlign.center : TextAlign.start,
+      style: TextStyle(
+        fontSize: 14,
+        color: textColor
       ),
     );
   }
