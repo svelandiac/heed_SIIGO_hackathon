@@ -17,4 +17,15 @@ class AppText {
     );
   }
 
+  Widget firstSubtitle({String text, bool centerText = false}) {
+    return Text(
+      text,
+      textAlign: centerText ? TextAlign.center : TextAlign.start,
+      style: TextStyle(
+        fontSize: 18,
+        color: Colors.grey[600]
+      ),
+    );
+  }
+
 }

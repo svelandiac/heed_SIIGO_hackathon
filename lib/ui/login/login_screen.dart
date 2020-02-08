@@ -14,9 +14,23 @@ class _LoginScreenState extends State<LoginScreen> {
   MediaQueryData mediaQueryData; // We will use it to know the screen's size, and to make a responsive application
   AppText appText; // We will use it for strings into the app
 
+  static const defaultMargin = 24.0;
+
   Widget _buildTitle() {
     return Center(
-      child: appText.title('Login Screen'),
+      child: appText.title('Iniciar sesión'),
+    );
+  }
+
+  Widget _buildFirstSubtitle() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(left: defaultMargin, right: defaultMargin),
+        child: appText.firstSubtitle(
+          text: 'Identifícate con tus credenciales para disfrutar de la aplicación.',
+          centerText: true
+        ),
+      ),
     );
   }
 
@@ -28,11 +42,20 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: mediaQueryData.size.height * 0.08,
             ),
-            _buildTitle()
+            _buildTitle(),
+            SizedBox(
+              height: mediaQueryData.size.height * 0.04,
+            ),
+            _buildFirstSubtitle()
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
