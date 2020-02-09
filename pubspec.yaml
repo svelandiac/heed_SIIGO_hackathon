@@ -35,6 +35,7 @@ dependencies:
   validate: ^1.7.0 # Validate data (forms)
   provider: ^3.0.0+1 # Global state management
   file_picker: ^1.4.3+2 # Plugin for selecting CSV (and others) files from local storage
+  http: ^0.12.0+4 # Make Get and Post Requests
 
 dev_dependencies:
   flutter_test:

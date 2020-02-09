@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:heed/access-data/database/database_repository.dart';
 import 'package:heed/access-data/models/user.dart';
+import 'package:heed/controllers/http_requests.dart';
 
 class UserController {
 
@@ -9,10 +10,12 @@ class UserController {
 
   DatabaseRepository _databaseRepository;
   User _userProvider;
+  HttpRequests _httpRequests;
 
   UserController(User userProvider) {
     _databaseRepository = DatabaseRepository();
     this._userProvider = userProvider;
+    this._httpRequests = HttpRequests();
   }
 
   String _avoidNullValues(value) {
@@ -40,7 +43,8 @@ class UserController {
 
       _userProvider.email = _avoidNullValues(documentSnapshot.data['email']);
       _userProvider.name = _avoidNullValues(documentSnapshot.data['name']);
-      _userProvider.company = _avoidNullValues(documentSnapshot.data['company']);
+      _userProvider.company = _avoidNullValues(await _httpRequests.bringCompanyName(email));
+
 
       _userProvider.hasInformation = true;
 
