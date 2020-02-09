@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:heed/access-data/models/user.dart';
 import 'package:heed/controllers/auth_controller.dart';
+import 'package:heed/ui/common-widgets/essentials/app_button.dart';
 import 'package:heed/ui/common-widgets/essentials/app_text.dart';
 import 'package:heed/ui/common-widgets/essentials/safe_screen.dart';
+import 'package:heed/ui/common-widgets/products_summary_widget.dart';
 import 'package:provider/provider.dart';
 
 class DashboardClientScreen extends StatefulWidget {
@@ -46,6 +48,44 @@ class _DashboardClientScreenState extends State<DashboardClientScreen> {
       ),
     );
   }
+
+  Widget _buildSummaryOfYourProducts() {
+    return Row(
+      children: <Widget>[
+        _appText.firstSubtitle(
+          text: 'Resumen de tus productos',
+          textColor: Colors.black,
+          bold: true
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSummary() {
+    return ProductsSummaryWidget();
+  }
+
+  Widget _buildShowMyProductsButton() {
+    return Center(
+      child: AppButton(
+        text: 'Ver todos mis productos',
+        onPressed: () {
+          Navigator.pushNamed(context, 'ProductsScreen');
+        },
+      ),
+    );
+  }
+
+  Widget _buildAddNewProductsButton() {
+    return Center(
+      child: AppButton(
+        text: 'Añadir nuevos productos',
+        onPressed: () {
+          Navigator.pushNamed(context, 'NewProductsScreen');
+        },
+      ),
+    );
+  }
   
   Widget _buildBody() { 
     return SafeScreen(
@@ -68,7 +108,29 @@ class _DashboardClientScreenState extends State<DashboardClientScreen> {
             SizedBox(
               height: _mediaQueryData.size.height * 0.045,
             ),
-            _buildUserName()
+            _buildUserName(),
+            SizedBox(
+              height:  _mediaQueryData.size.height * 0.08,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: _defaultMargin, right: _defaultMargin),
+              child: _buildSummaryOfYourProducts(),
+            ),
+            SizedBox(
+              height:  _mediaQueryData.size.height * 0.045,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: _defaultMargin, right: _defaultMargin),
+              child: _buildSummary(),
+            ),
+            SizedBox(
+              height:  _mediaQueryData.size.height * 0.08,
+            ),
+            _buildShowMyProductsButton(),
+            SizedBox(
+              height:  _mediaQueryData.size.height * 0.02,
+            ),
+            _buildAddNewProductsButton()
           ],
         ),
       ),
