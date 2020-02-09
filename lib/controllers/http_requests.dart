@@ -14,4 +14,14 @@ class HttpRequests {
   } 
 
 
+  Future<void> processCSVFile(String csvURL) async {
+
+    String jsonParameters = '{"csvURL": "$csvURL"}';
+
+    var productsList = await _httpRequestCreator.makePostRequest('https://us-central1-heed-siigo-hackathon.cloudfunctions.net/processCSVfile', jsonParameters);
+
+    print(productsList);
+  } 
+
+
 }

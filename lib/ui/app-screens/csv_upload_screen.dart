@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:heed/controllers/http_requests.dart';
 import 'package:heed/ui/common-widgets/essentials/app_button.dart';
 import 'package:heed/ui/common-widgets/essentials/app_text.dart';
 import 'package:heed/ui/common-widgets/essentials/safe_screen.dart';
@@ -17,6 +18,7 @@ class _CSVUploadScreenState extends State<CSVUploadScreen> {
   // Variables declaration
   MediaQueryData _mediaQueryData; // We will use it to know the screen's size, and to make a responsive application
   AppText _appText; // We will use it for strings into the app
+  HttpRequests _httpRequests;
 
   File csvFile;
   String fileName;
@@ -54,7 +56,9 @@ class _CSVUploadScreenState extends State<CSVUploadScreen> {
     //Upload the file to firebase 
     StorageUploadTask uploadTask = storageReference.putFile(csvFile);
 
-    await uploadTask.onComplete;
+    String downloadURL = (await (await uploadTask.onComplete).ref.getDownloadURL()).toString();
+
+    await _httpRequests.processCSVFile(downloadURL);
 
     Scaffold.of(scaffoldContext).hideCurrentSnackBar();
     Scaffold.of(scaffoldContext).showSnackBar(successSnackBar);
@@ -191,6 +195,7 @@ class _CSVUploadScreenState extends State<CSVUploadScreen> {
 
     // Constant variables initialization
     _appText = AppText();
+    _httpRequests = HttpRequests();
   }
   
   @override
