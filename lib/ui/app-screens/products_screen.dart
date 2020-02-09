@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heed/ui/common-widgets/essentials/app_text.dart';
 import 'package:heed/ui/common-widgets/essentials/safe_screen.dart';
+import 'package:heed/ui/common-widgets/search_bar_widget.dart';
 
 class ProductsScreen extends StatefulWidget {
   @override
@@ -15,6 +16,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   static const _defaultMargin = 24.0;
 
+  Widget _buildSearchBar() {
+    return Padding(
+      padding: EdgeInsets.only(left: _defaultMargin, right: _defaultMargin),
+      child: SearchBarWidget(),
+    );
+  }
+
   Widget _buildBody() {
     return SafeScreen(
       body: SingleChildScrollView(
@@ -27,6 +35,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
               padding: const EdgeInsets.only(left: _defaultMargin, right: _defaultMargin),
               child: _appText.title('Tus productos'),
             ),
+            SizedBox(
+              height: _mediaQueryData.size.height * 0.04,
+            ),
+            _buildSearchBar()
           ],
         ),
       ),
