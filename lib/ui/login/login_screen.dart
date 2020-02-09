@@ -47,7 +47,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
         await _authController.loginWithEmailAndPassword(
           email: _emailController.text.trim(),
-          password: _passwordController.text.trim()
+          password: _passwordController.text.trim(),
+          userProvider: _userProvider
         );
 
       }

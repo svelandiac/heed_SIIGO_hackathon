@@ -42,6 +42,8 @@ class UserController {
       _userProvider.name = _avoidNullValues(documentSnapshot.data['name']);
       _userProvider.company = _avoidNullValues(documentSnapshot.data['company']);
 
+      _userProvider.hasInformation = true;
+
       return true;
 
     } 

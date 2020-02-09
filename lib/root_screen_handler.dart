@@ -15,10 +15,30 @@ class RootScreenHandler extends StatefulWidget{
 
 class _RootScreenHandlerState extends State<RootScreenHandler> {
 
+  // This is the handler for knowing what screen is displayed.
+  // It makes the verification of what information we have, if user
+  // logged in, etc.
+
   User _userProvider;
   UserController _userController;
 
-  Future<void> _bringUserInformation() async {
+  bool _loadingFirebaseInfo; // This is for displaying a "loading message"
+
+  _RootScreenHandlerState() {
+    FirebaseAuth.instance.currentUser() // We verify if there is a current session opened
+    .then((value) {   
+      if(value != null)
+        _userProvider.logged = true;
+
+      setState(() {
+        _loadingFirebaseInfo = false;
+      });
+    });
+  }
+
+  Future<void> _bringUserInformation() async { 
+    // We need to bring the user information from the database
+    // with an async method.
 
     try {
       FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -35,37 +55,31 @@ class _RootScreenHandlerState extends State<RootScreenHandler> {
   } 
 
   @override
+  void initState() {
+    super.initState();
+    this._loadingFirebaseInfo = true;
+    
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     _userProvider = Provider.of<User>(context);
     _userController = UserController(_userProvider);
 
-    return StreamBuilder(
-    stream: FirebaseAuth.instance.onAuthStateChanged,
-    builder: (BuildContext context, snapshot){
-      if(snapshot.connectionState == ConnectionState.waiting)
-        return _buildWaiting();
-      else{
-        if(snapshot.hasData) {
-          if(_userProvider.email == 'email@default.com') {
-            _bringUserInformation();            
-            return BringingInformationFromDatabaseScreen();
-          }
-          else 
-            return DashboardClientScreen();
-        }
-        else
-          return LoginScreen();
-      }
-    },
-  );
-  }
-}
+    if(_loadingFirebaseInfo) // We are verifying if there is a firebase session
+      return BringingInformationFromDatabaseScreen();
+      
 
-Widget _buildWaiting(){
-  return Scaffold(
-    body: Center(
-      child: CircularProgressIndicator(),
-    ),
-  );
+    if (_userProvider.logged && !_userProvider.hasInformation) { // There is a firebase session but we don't have user information
+      _bringUserInformation();
+      return BringingInformationFromDatabaseScreen();
+    }
+
+    if(_userProvider.logged && _userProvider.hasInformation)  // We have both requeriments 
+      return DashboardClientScreen();
+
+    return LoginScreen(); // We don't have any information and we need logging in
+    
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:heed/access-data/database/authentication.dart';
 import 'package:heed/access-data/database/database_repository.dart';
+import 'package:heed/access-data/models/user.dart';
 import 'package:heed/controllers/text_input_controller.dart';
 import 'package:validate/validate.dart';
 
@@ -46,7 +47,7 @@ class AuthController {
     }
   }
 
-  Future<bool> loginWithEmailAndPassword({String email, String password}) async {
+  Future<bool> loginWithEmailAndPassword({String email, String password, User userProvider}) async {
 
     // This is the method for login into the app
     // We will check if the information is valid. 
@@ -57,9 +58,10 @@ class AuthController {
       return false;
     }    
 
-    // Now we have to use the authentication service. If it log in, we return true, otherwise we return false.
+    // Now we have to use the authentication service. If it logs in, we return true, otherwise we return false.
     try {
       await authentication.signInWithEmailAndPassword(email, password);
+      userProvider.logged = true;
       return true;
     } catch (e) {
       print(e);
@@ -73,11 +75,12 @@ class AuthController {
 
   }
 
-  Future<bool> logOut() async {
+  Future<bool> logOut({User userProvider}) async {
     // This is the method for close the current session.
     // We don't need inputs, just call this method.
     try {
       await authentication.signOut();
+      userProvider.logged = false;
       return true;
     } catch (error) {
       print(error);
