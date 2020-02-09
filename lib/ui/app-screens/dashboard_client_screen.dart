@@ -14,9 +14,9 @@ class _DashboardClientScreenState extends State<DashboardClientScreen> {
 
   // Variables declaration
   MediaQueryData _mediaQueryData; // We will use it to know the screen's size, and to make a responsive application
-  AppText appText; // We will use it for strings into the app
+  AppText _appText; // We will use it for strings into the app
   AuthController _authController; // Controller for authentication
-  User userProvider; // User information
+  User _userProvider; // User information
 
   static const _defaultMargin = 24.0;
 
@@ -24,7 +24,7 @@ class _DashboardClientScreenState extends State<DashboardClientScreen> {
     return IconButton(
       icon: Icon(Icons.power_settings_new),
       onPressed: () {
-        _authController.logOut();
+        _authController.logOut(userProvider: _userProvider);
       },
     );
   }
@@ -35,12 +35,12 @@ class _DashboardClientScreenState extends State<DashboardClientScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          appText.firstSubtitle(
-            text: userProvider.name,
+          _appText.firstSubtitle(
+            text: _userProvider.name,
             textColor: Colors.black
           ),
-          appText.secondSubtitle(
-            text: userProvider.company,
+          _appText.secondSubtitle(
+            text: _userProvider.company,
           ),
         ],
       ),
@@ -59,7 +59,7 @@ class _DashboardClientScreenState extends State<DashboardClientScreen> {
               padding: const EdgeInsets.only(left: _defaultMargin, right: _defaultMargin),
               child: Row(
                 children: <Widget>[
-                  appText.title('Bienvenido,'),
+                  _appText.title('Bienvenido,'),
                   Spacer(),
                   _buildLogOutButton()
                 ],
@@ -80,7 +80,7 @@ class _DashboardClientScreenState extends State<DashboardClientScreen> {
     super.initState();
 
     // Constant variables initialization
-    appText = AppText();
+    _appText = AppText();
     _authController = AuthController();
   }
   
@@ -89,7 +89,7 @@ class _DashboardClientScreenState extends State<DashboardClientScreen> {
 
     // Variables initialization
     _mediaQueryData = MediaQuery.of(context);
-    userProvider = Provider.of<User>(context);
+    _userProvider = Provider.of<User>(context);
 
     return _buildBody();
   }
