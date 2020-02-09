@@ -17,7 +17,7 @@ class AppText {
     );
   }
 
-  Widget firstSubtitle({String text, bool centerText = false, Color textColor}) {
+  Widget firstSubtitle({String text, bool centerText = false, Color textColor, bool bold = false}) {
 
     if(textColor == null) 
       textColor = Colors.grey[600];
@@ -27,7 +27,8 @@ class AppText {
       textAlign: centerText ? TextAlign.center : TextAlign.start,
       style: TextStyle(
         fontSize: 18,
-        color: textColor
+        color: textColor,
+        fontWeight: bold ? FontWeight.bold : FontWeight.normal
       ),
     );
   }

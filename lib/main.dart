@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heed/config/app_config.dart';
 import 'package:heed/root_screen_handler.dart';
 import 'package:provider/provider.dart';
 import 'access-data/models/user.dart';
@@ -18,6 +19,7 @@ class HeedApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: RootScreenHandler(),
+        routes: routes,
       ),
     );
   }

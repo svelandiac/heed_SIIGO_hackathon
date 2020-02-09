@@ -51,6 +51,10 @@ class _LoginScreenState extends State<LoginScreen> {
           userProvider: _userProvider
         );
 
+        setState(() {
+          this._loading = false;
+        });
+
       }
       catch (e) {
         print(e);
