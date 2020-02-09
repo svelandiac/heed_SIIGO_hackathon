@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "235411024567",
+    "firebase_url": "https://heed-siigo-hackathon.firebaseio.com",
+    "project_id": "heed-siigo-hackathon",
+    "storage_bucket": "heed-siigo-hackathon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235411024567:android:ecc899d4d7a6abffb63b32",
+        "android_client_info": {
+          "package_name": "com.svelandiac.heed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235411024567-2d3a2aesph1f80js1jvcn3bq47r0aulq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9ZpdA8nQ6tSazoyWmQk0bGiSGnNffJ0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235411024567-2d3a2aesph1f80js1jvcn3bq47r0aulq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
